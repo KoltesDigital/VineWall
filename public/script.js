@@ -19,12 +19,11 @@
 			var height = Math.floor(windowHeight / rows);
 			$videos.children().width(height);
 			
-			var removedVideos = $videos.children().slice(limit).remove();
+			videos = Math.min(limit, rows * Math.floor(window.innerWidth / height));
+			var removedVideos = $videos.children().slice(videos).remove();
 			removedVideos.each(function() {
 				tetrisRng.remove(this);
 			});
-			
-			videos = Math.min(limit, rows * Math.floor(window.innerWidth / height));
 		});
 		
 		function showVideos() {
