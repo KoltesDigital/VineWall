@@ -1,0 +1,5 @@
+module.exports = {
+	interval: 15, // time between updates in seconds
+	limit: 16, // limit the number of videos
+	siteName: 'Vine wall' // displayed after the title
+};

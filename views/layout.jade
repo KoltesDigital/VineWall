@@ -1,0 +1,21 @@
+doctype html
+html
+	head
+		meta(charset='UTF-8')
+		title= (title ? title + ' - ' : '') + siteName
+		meta(name='author', content='Bloutiouf aka Jonathan Giroux')
+		meta(name='description', content=description)
+		meta(property='og:description', content=description)
+		if image
+			meta(property='og:image', content=fullUrl + image)
+		meta(property='og:site_name', content=siteName)
+		meta(property='og:title', content=title)
+		meta(property='og:type', content='website')
+		meta(name='twitter:card', content='summary')
+		meta(name='twitter:creator', content='@Bloutiouf')
+		link(href='https://plus.google.com/+JonathanGiroux', rel='author')
+		link(rel='stylesheet', href='/style.css')
+	body
+		block content
+		script(src='http://code.jquery.com/jquery-1.9.1.js')
+		script(src='/script.js')

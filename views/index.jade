@@ -1,0 +1,15 @@
+extends layout
+
+block content
+	.row: a.button(href='/?popular') Popular videos
+	form.row: p
+		input(name='tag', placeholder='Tag', type='text')
+		button(type='submit') Display
+	form.row: p
+		input(name='user', placeholder='User id', type='text')
+		button(type='submit') Display
+	.row
+		| Powered by 
+		a(href='https://github.com/Bloutiouf/VineWall', target='_blank') VineWall
+		|  using videos from 
+		a(href='https://vine.co/', target='_blank') Vine
