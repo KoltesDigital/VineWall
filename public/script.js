@@ -3,8 +3,11 @@
 	if ($videos.length) {
 		var interval = parseInt($videos.data('interval')) * 1000;
 		var limit = parseInt($videos.data('limit'));
+		var videos = 0;
 		
 		var $window = $(window);
+		
+		var tetrisRng = new TetrisRNG(0.5);
 		
 		var query = {
 			timeline: $videos.data('timeline')
@@ -13,22 +16,38 @@
 		$window.resize(function() {
 			var windowHeight = window.innerHeight;
 			var rows = Math.round(windowHeight / 480);
-			$videos.children().width(windowHeight / rows);
+			var height = Math.floor(windowHeight / rows);
+			$videos.children().width(height);
+			
+			var removedVideos = $videos.children().slice(limit).remove();
+			removedVideos.each(function() {
+				tetrisRng.remove(this);
+			});
+			
+			videos = Math.min(limit, rows * Math.floor(window.innerWidth / height));
 		});
 		
 		function showVideos() {
+			function update() {
+				$videos.children().prop('muted', true).removeClass('unmuted');
+				$(tetrisRng.random()).removeAttr('muted').prop('muted', false).addClass('unmuted');
+				setTimeout(showVideos, interval);
+			}
+		
 			$.getJSON('/get.json', query, function(data) {
 				$.each(data.videos, function() {
-					$videos.prepend($('<video autoplay muted loop preload="auto" poster></video>').attr('src', this));
+					var video = $('<video autoplay muted loop preload="auto" poster></video>').attr('src', this);
+					tetrisRng.add(video[0]);
+					$videos.prepend(video);
 				});
-				$videos.children().slice(limit).remove();
 				$window.resize();
 				
+				if (!query.since)
+					tetrisRng.shuffle();
 				query.since = data.last;
-				setTimeout(showVideos, interval);
-			}).fail(function() {
-				setTimeout(showVideos, interval);
-			});
+				
+				update();
+			}).fail(update);
 		}
 		
 		showVideos();
