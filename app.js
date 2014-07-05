@@ -64,37 +64,57 @@ app.get('/', function(req, res) {
 });
 
 app.get('/get.json', function(req, res) {
-	if (req.query.timeline)
-		vineClient.get(req.query.timeline, function(err, response, body) {
-			if (!err && body.success) {
-				var videos = [];
+	var n = parseInt(req.query.n);
+	if (req.query.timeline && n > 0) {
+		var videos = [];
+		var since = req.query.since ? parseInt(req.query.since) : -1;
+		var lastId;
+		
+		function sendVideos() {
+			if (videos.length) {
+				if (videos.length > n)
+					videos.length = n;
 				
-				var lastId = req.query.since ? parseInt(req.query.since) : -1;
+				videos.reverse();
 				
-				records = body.data.records;
-				records.sort(sortByPostId);
-				records.forEach(function(record) {
-					if (record.postId > lastId) {
-						lastId = record.postId;
-						videos.push(record.videoUrl);
-					}
+				res.json({
+					last: lastId,
+					videos: videos
 				});
-				
-				if (videos.length > conf.limit)
-					videos.length = conf.limit;
-				
-				if (videos.length)
-					res.json({
-						last: lastId,
-						videos: videos
-					});
-				else
-					res.send(404);
 			} else
-				res.json(500, body);
-		});
-	else
-		res.send(404);
+				res.send(404);
+		}
+		
+		function getPage(index) {
+			vineClient.get(req.query.timeline + '?page=' + index, function(err, response, body) {
+				if (!err && body.success) {
+					var records = body.data.records;
+					if (records.length) {
+						if (index === 1)
+							lastId = records[0].postId;
+						
+						var added = 0;
+						records.forEach(function(record) {
+							if (record.postId > since) {
+								videos.push(record.videoUrl);
+								++added;
+							}
+						});
+						
+						if (added === records.length && videos.length < n && body.data.nextPage)
+							getPage(body.data.nextPage);
+						else
+							sendVideos();
+					} else
+						sendVideos();
+				} else
+					res.json(500, body);
+			});
+		}
+		
+		getPage(1);
+	} else
+		res.send(400);
 });
 
 if (require.main === module)

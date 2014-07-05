@@ -2,7 +2,6 @@
 	var $videos = $('#videos');
 	if ($videos.length) {
 		var interval = parseInt($videos.data('interval')) * 1000;
-		var limit = parseInt($videos.data('limit'));
 		var staticRows = parseInt($videos.data('rows'));
 		var videos = 0;
 		
@@ -20,12 +19,13 @@
 			var height = Math.floor(windowHeight / rows);
 			$videos.children().width(height);
 			
-			videos = Math.min(limit, rows * Math.floor(window.innerWidth / height));
+			videos = rows * Math.floor(window.innerWidth / height);
+			query.n = videos;
 			var removedVideos = $videos.children().slice(videos).remove();
 			removedVideos.each(function() {
 				tetrisRng.remove(this);
 			});
-		});
+		}).resize();
 		
 		function showVideos() {
 			function update() {
