@@ -3,6 +3,7 @@
 	if ($videos.length) {
 		var interval = parseInt($videos.data('interval')) * 1000;
 		var limit = parseInt($videos.data('limit'));
+		var staticRows = parseInt($videos.data('rows'));
 		var videos = 0;
 		
 		var $window = $(window);
@@ -15,7 +16,7 @@
 		
 		$window.resize(function() {
 			var windowHeight = window.innerHeight;
-			var rows = Math.round(windowHeight / 480);
+			var rows = staticRows || Math.round(windowHeight / 480);
 			var height = Math.floor(windowHeight / rows);
 			$videos.children().width(height);
 			

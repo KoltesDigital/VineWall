@@ -35,21 +35,25 @@ function sortByPostId(a, b) {
 }
 
 app.get('/', function(req, res) {
+	var rows = req.query.rows || '';
 	if (typeof req.query.popular !== 'undefined')
 		res.render('wall', {
 			description: 'Popular videos on VineWall.',
+			rows: rows,
 			timeline: 'popular',
 			title: 'Popular videos'
 		});
 	else if (req.query.tag)
 		res.render('wall', {
 			description: 'Videos with tag ' + req.query.tag + ' on VineWall.',
+			rows: rows,
 			timeline: 'tags/' + req.query.tag,
 			title: 'Tag: ' + req.query.tag
 		});
 	else if (req.query.user)
 		res.render('wall', {
 			description: 'Videos of user ' + req.query.user + ' on VineWall.',
+			rows: rows,
 			timeline: 'users/' + req.query.user,
 			title: 'User: ' + req.query.user
 		});
