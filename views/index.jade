@@ -2,12 +2,13 @@ extends layout
 
 block content
 	.row: a.button(href='/?popular') Popular videos
-	form.row: p
+	form.row
 		input(name='tag', placeholder='Tag', type='text')
 		button(type='submit') Display
-	form.row: p
+	form.row
 		input(name='user', placeholder='User id', type='text')
 		button(type='submit') Display
+	.row <em>rows</em> and/or <em>columns</em> parameters enforce the grid dimensions.
 	.row
 		| Powered by 
 		a(href='https://github.com/Bloutiouf/VineWall', target='_blank') VineWall

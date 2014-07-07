@@ -6,10 +6,12 @@ Developed for the [Sommerloch 2014 @ HfG Karlsruhe](http://www.hfg-karlsruhe.de/
 
 ## Query string
 
-`popular`, `tag=...` or `user=...` choose the channel.
+`popular`, `tag` or `user` parameters choose the channel.
 
-`rows=...` enforces the number of rows.
+`rows` and/or `columns` parameters enforce the grid dimensions.
 
 ## License
+
+Copyright (c) 2014 Jonathan Giroux
 
 [MIT License](http://opensource.org/licenses/MIT)
