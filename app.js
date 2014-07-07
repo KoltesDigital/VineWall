@@ -35,13 +35,15 @@ function sortByPostId(a, b) {
 }
 
 app.get('/', function(req, res) {
+	var interval = req.query.interval || conf.interval;
 	var rows = req.query.rows || '';
 	var columns = req.query.columns || '';
 	
 	if (typeof req.query.popular !== 'undefined')
 		res.render('wall', {
 			columns: columns,
-			description: 'Popular videos on VineWall.',
+			description: 'Popular videos on ' + conf.siteName + '.',
+			interval: interval,
 			rows: rows,
 			timeline: 'popular',
 			title: 'Popular videos'
@@ -49,7 +51,8 @@ app.get('/', function(req, res) {
 	else if (req.query.tag)
 		res.render('wall', {
 			columns: columns,
-			description: 'Videos with tag ' + req.query.tag + ' on VineWall.',
+			description: 'Videos with tag ' + req.query.tag + ' on ' + conf.siteName + '.',
+			interval: interval,
 			rows: rows,
 			timeline: 'tags/' + req.query.tag,
 			title: 'Tag: ' + req.query.tag
@@ -57,7 +60,8 @@ app.get('/', function(req, res) {
 	else if (req.query.user)
 		res.render('wall', {
 			columns: columns,
-			description: 'Videos of user ' + req.query.user + ' on VineWall.',
+			description: 'Videos of user ' + req.query.user + ' on ' + conf.siteName + '.',
+			interval: interval,
 			rows: rows,
 			timeline: 'users/' + req.query.user,
 			title: 'User: ' + req.query.user

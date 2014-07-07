@@ -6,9 +6,11 @@ Developed for the [Sommerloch 2014 @ HfG Karlsruhe](http://www.hfg-karlsruhe.de/
 
 ## Query string
 
-`popular`, `tag` or `user` parameters choose the channel.
+`popular`, `tag` or `user` choose the channel.
 
-`rows` and/or `columns` parameters enforce the grid dimensions.
+`rows` and/or `columns` enforce the grid dimensions.
+
+`interval` overrides the default update interval (in seconds). Note that the actual interval is longer due to the request to Vine.
 
 ## License
 
