@@ -1,4 +1,4 @@
-var conf = require('./conf'),
+var config = require('config-path')(__dirname + "/config.yml"),
 	express = require('express'),
 	nib = require('nib'),
 	path = require('path'),
@@ -11,7 +11,7 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.locals = conf;
+app.locals = config;
 
 app.use(stylus.middleware({
 	dest: path.join(__dirname, 'generated'),
@@ -35,14 +35,14 @@ function sortByPostId(a, b) {
 }
 
 app.get('/', function(req, res) {
-	var interval = req.query.interval || conf.interval;
+	var interval = req.query.interval || config.interval;
 	var rows = req.query.rows || '';
 	var columns = req.query.columns || '';
 	
 	if (typeof req.query.popular !== 'undefined')
 		res.render('wall', {
 			columns: columns,
-			description: 'Popular videos on ' + conf.siteName + '.',
+			description: 'Popular videos on ' + config.siteName + '.',
 			interval: interval,
 			rows: rows,
 			timeline: 'popular',
@@ -51,7 +51,7 @@ app.get('/', function(req, res) {
 	else if (req.query.tag)
 		res.render('wall', {
 			columns: columns,
-			description: 'Videos with tag ' + req.query.tag + ' on ' + conf.siteName + '.',
+			description: 'Videos with tag ' + req.query.tag + ' on ' + config.siteName + '.',
 			interval: interval,
 			rows: rows,
 			timeline: 'tags/' + req.query.tag,
@@ -60,7 +60,7 @@ app.get('/', function(req, res) {
 	else if (req.query.user)
 		res.render('wall', {
 			columns: columns,
-			description: 'Videos of user ' + req.query.user + ' on ' + conf.siteName + '.',
+			description: 'Videos of user ' + req.query.user + ' on ' + config.siteName + '.',
 			interval: interval,
 			rows: rows,
 			timeline: 'users/' + req.query.user,

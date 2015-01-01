@@ -1,0 +1,5 @@
+development:
+  # time between updates in seconds
+  interval: 15
+  # displayed after the title
+  siteName: 'VineWall'

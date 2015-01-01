@@ -1,4 +1,0 @@
-module.exports = {
-	interval: 15, // time between updates in seconds
-	siteName: 'VineWll' // displayed after the title
-};
