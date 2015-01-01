@@ -7,7 +7,7 @@ var config = require('config-path')(__dirname + "/config.yml"),
 
 var app = module.exports = express();
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', config.port);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
